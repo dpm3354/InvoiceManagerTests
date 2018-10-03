@@ -1,27 +1,17 @@
 package com.beaufortfairmont.invoicemanager;
 
-import com.beaufortfairmont.invoicemanager.models.ApplicationConfiguration;
 import com.beaufortfairmont.invoicemanager.models.Invoice;
-import com.beaufortfairmont.invoicemanager.pages.AddInvoicePage;
 import com.beaufortfairmont.invoicemanager.pages.InvoiceListingPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@SpringBootTest
-public class InvoiceTests extends AbstractTestNGSpringContextTests {
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-    @Autowired
-    private ApplicationConfiguration configuration;
+public class InvoiceTests extends BasePageTests {
 
     @DataProvider
     public Object[][] invoiceMatrix() {
@@ -35,18 +25,30 @@ public class InvoiceTests extends AbstractTestNGSpringContextTests {
                 .status(Invoice.Status.DRAFT)
                 .price(new BigDecimal("75.00"))
                 .companyName("Installed toilet handle.")
-                .dueDate(LocalDate.of(2016,4, 30));
-
-
+                .description("stanky")
+                .dueDate(LocalDate.of(2016,4, 30))
+                .build();
         return invoices;
     }
 
 	@Test(dataProvider = "invoiceMatrix")
 	public void addInvoice(Invoice invoice) {
-        InvoiceListingPage.create(null)
+        InvoiceListingPage invoices = InvoiceListingPage.create(getDriver())
                 .getSideBar()
                 .clickAddInvoice()
-                .create(invoice);
+                .create(invoice)
+                .getSideBar()
+                .getInvoices();
+        assertTrue(invoices.contains(invoice));
+    }
+
+    @Test(dataProvider = "invoiceMatrix", dependsOnMethods = "addInvoice")
+    public void deleteInvoice(Invoice invoice) throws InterruptedException {
+        InvoiceListingPage invoices = InvoiceListingPage
+                .create(getDriver())
+                .open(invoice)
+                .delete();
+        assertFalse(invoices.contains(invoice));
     }
 
 }

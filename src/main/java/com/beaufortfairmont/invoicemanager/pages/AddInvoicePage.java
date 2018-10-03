@@ -3,43 +3,48 @@ package com.beaufortfairmont.invoicemanager.pages;
 import com.beaufortfairmont.invoicemanager.models.Invoice;
 import org.openqa.selenium.WebDriver;
 
-import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.cssSelector;
+import static org.openqa.selenium.By.id;
 
 public class AddInvoicePage extends BasePage {
 
-    public AddInvoicePage(WebDriver webDriver) {
+    private AddInvoicePage(WebDriver webDriver) {
         super(webDriver);
     }
 
+    public static AddInvoicePage create(WebDriver webDriver) {
+        return new AddInvoicePage(webDriver);
+    }
+
     private void setInvoiceNumber(Invoice invoice) {
-        find(className("#invoiceNo_add input")).sendKeys(invoice.getInvoiceNumber());
+        find(cssSelector("#invoiceNo_add input")).sendKeys(invoice.getInvoiceNumber());
     }
 
     private void setCompanyName(Invoice invoice) {
-        find(className("#compName_add input")).sendKeys(invoice.getCompanyName());
+        find(cssSelector("#compName_add input")).sendKeys(invoice.getCompanyName());
     }
 
     private void setTypeOfWork(Invoice invoice) {
-        find(className("#typeofwork_add input")).sendKeys(invoice.getTypeOfWork());
+        find(cssSelector("#typeofwork_add input")).sendKeys(invoice.getTypeOfWork());
     }
 
     private void setAmount(Invoice invoice) {
-        find(className("#cost_add input")).sendKeys(invoice.getPrice().toString());
+        find(cssSelector("#cost_add input")).sendKeys(invoice.getPrice().toString());
     }
 
     private void setStatus(Invoice invoice) {
-        find(className("#selectStatus")).sendKeys(invoice.getStatus().toString());
+        find(cssSelector("#selectStatus")).sendKeys(invoice.getStatus().toString());
     }
 
     private void setDueDate(Invoice invoice) {
-        find(className("#invoice_dueDate input")).sendKeys(invoice.getDueDate().toString());
+        find(cssSelector("#invoice_dueDate input")).sendKeys(invoice.getDueDate().toString());
     }
 
     private void setDescription(Invoice invoice) {
-        find(className("#comments_add input")).sendKeys(invoice.getDescription());
+        find(cssSelector("#comments_add input")).sendKeys(invoice.getDescription());
     }
 
-    public void create(Invoice invoice) {
+    public InvoiceListingPage create(Invoice invoice) {
         setInvoiceNumber(invoice);
         setCompanyName(invoice);
         setTypeOfWork(invoice);
@@ -47,8 +52,13 @@ public class AddInvoicePage extends BasePage {
         setStatus(invoice);
         setDueDate(invoice);
         setDescription(invoice);
+       return submit();
     }
 
+    private InvoiceListingPage submit() {
+        find(id("createButton")).click();
+        return InvoiceListingPage.create(getWebDriver());
+    }
 
 
 }

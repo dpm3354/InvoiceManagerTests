@@ -1,6 +1,9 @@
 package com.beaufortfairmont.invoicemanager.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import static org.openqa.selenium.By.cssSelector;
 
 public class Sidebar extends Page {
     public Sidebar(WebDriver webDriver) {
@@ -8,6 +11,12 @@ public class Sidebar extends Page {
     }
 
     public AddInvoicePage clickAddInvoice() {
-        return new AddInvoicePage(getWebDriver());
+        find(cssSelector("[href='#/addInvoice']")).click();
+        return AddInvoicePage.create(getWebDriver());
+    }
+
+    public InvoiceListingPage getInvoices() {
+        find(cssSelector("[href='#/tables']")).click();
+        return InvoiceListingPage.create(getWebDriver());
     }
 }

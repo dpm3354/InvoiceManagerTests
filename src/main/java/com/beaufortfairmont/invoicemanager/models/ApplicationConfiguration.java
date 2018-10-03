@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties
 public class ApplicationConfiguration {
-    private String test;
+    private String baseUrl;
 }

@@ -23,6 +23,10 @@ repositories {
 	mavenCentral()
 }
 
+test {
+    systemProperties = System.properties
+    useTestNG()
+}
 
 dependencies {
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
