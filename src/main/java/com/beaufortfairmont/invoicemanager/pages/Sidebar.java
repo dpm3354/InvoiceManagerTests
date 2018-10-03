@@ -1,6 +1,5 @@
 package com.beaufortfairmont.invoicemanager.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import static org.openqa.selenium.By.cssSelector;

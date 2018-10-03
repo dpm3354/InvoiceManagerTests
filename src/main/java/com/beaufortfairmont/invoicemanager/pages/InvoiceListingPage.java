@@ -1,7 +1,6 @@
 package com.beaufortfairmont.invoicemanager.pages;
 
 import com.beaufortfairmont.invoicemanager.models.Invoice;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -10,7 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.openqa.selenium.By.*;
+import static org.openqa.selenium.By.className;
+import static org.openqa.selenium.By.cssSelector;
 
 public class InvoiceListingPage extends BasePage {
     public InvoiceListingPage(WebDriver webDriver) {
