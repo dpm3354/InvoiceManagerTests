@@ -42,7 +42,7 @@ public class InvoiceTests extends BasePageTests {
         assertTrue(invoices.contains(invoice));
     }
 
-    @Test(dataProvider = "invoiceMatrix", dependsOnMethods = "addInvoice")
+    @Test(dataProvider = "invoiceMatrix", dependsOnMethods = "addInvoice", enabled = false)
     public void deleteInvoice(Invoice invoice) throws InterruptedException {
         InvoiceListingPage invoices = InvoiceListingPage
                 .create(getDriver())
