@@ -2,10 +2,7 @@ package com.beaufortfairmont.invoicemanager.pages;
 
 import com.beaufortfairmont.invoicemanager.models.Invoice;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +21,7 @@ public class InvoiceListingPage extends BasePage {
     private List<Invoice> getInvoices() {
         return findAll(className("invoice"))
                 .stream()
-                .map(this::from)
+                .map(Invoice::from)
                 .collect(Collectors.toList());
     }
 
@@ -33,18 +30,11 @@ public class InvoiceListingPage extends BasePage {
         return InvoiceDetailsPage.create(getWebDriver());
     }
 
-    private Invoice from(WebElement element) {
-        return Invoice.builder()
-                .invoiceNumber(extractText(element.findElement(className("invoice_number"))))
-                .companyName(extractText(element.findElement(className("company_name"))))
-                .typeOfWork(extractText(element.findElement(className("type_of_work"))))
-                .dueDate(LocalDate.parse(extractText(element.findElement(className("due_date")))))
-                .price(new BigDecimal(extractText(element.findElement(className("price")))))
-                .description(extractText(element.findElement(className("comment"))))
-                .status(Invoice.Status.parse(extractText(element.findElement(className("status")))).orElseThrow(NullPointerException::new))
-                .build();
-    }
-
+    /**
+     * Checks if an invoice exists on the page matching all fields
+     * @param
+     * @return
+     */
     public boolean contains(Invoice invoice) {
         return getInvoices().contains(invoice);
     }

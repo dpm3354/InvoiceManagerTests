@@ -26,7 +26,7 @@ public abstract class Page {
         return getWebDriver().findElements(by);
     }
 
-    protected String extractText(WebElement element) {
+    public static String extractText(WebElement element) {
         return element.getText();
     }
 

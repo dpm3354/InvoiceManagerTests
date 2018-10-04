@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.beaufortfairmont.invoicemanager.models.Invoice.Status.DRAFT;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -22,7 +23,7 @@ public class InvoiceTests extends BasePageTests {
                 .companyName("All Day Plumbing")
                 .invoiceNumber("10030")
                 .typeOfWork("Plumbing")
-                .status(Invoice.Status.DRAFT)
+                .status(DRAFT)
                 .price(new BigDecimal("75.00"))
                 .companyName("Installed toilet handle.")
                 .description("stanky")
