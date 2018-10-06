@@ -1,19 +1,15 @@
 package com.beaufortfairmont.invoicemanager;
 
 import com.beaufortfairmont.invoicemanager.models.ApplicationConfiguration;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest
-public abstract class BasePageTests extends AbstractTestNGSpringContextTests {
+public abstract class BasePageTests {
 
     static {
         System.setProperty("webdriver.chrome.driver", BasePageTests.class.getResource("/chromedriver").getFile());
@@ -21,11 +17,15 @@ public abstract class BasePageTests extends AbstractTestNGSpringContextTests {
 
     private WebDriver driver;
 
-    @Autowired
     protected ApplicationConfiguration configuration;
 
+    @BeforeClass
+    public void setupClass() {
+        configuration = ApplicationConfiguration.initialize();
+    }
+
     @BeforeMethod
-    public void setup() throws JsonProcessingException {
+    public void setup() {
         driver = new ChromeDriver();
         getDriver().navigate().to(configuration.getBaseUrl());
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

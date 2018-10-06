@@ -1,30 +1,23 @@
 package com.beaufortfairmont.invoicemanager.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
 import org.openqa.selenium.WebElement;
-import org.springframework.boot.json.JsonParser;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.beaufortfairmont.invoicemanager.pages.Page.extractText;
 import static org.openqa.selenium.By.className;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
 public class Invoice {
 
     @JsonProperty("invoiceNo")
     private String invoiceNumber;
 
-    private String companyName, typeOfWork;
+    private String companyName;
+    private String typeOfWork;
 
     @JsonProperty("comment")
     private String description;
@@ -32,6 +25,87 @@ public class Invoice {
 
     private LocalDate dueDate;
     private BigDecimal price;
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getTypeOfWork() {
+        return typeOfWork;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+
+    public static class Builder {
+
+        private final Invoice invoice;
+
+        private Builder() {
+            this.invoice = new Invoice();
+        }
+
+        public Builder invoiceNumber(String invoiceNumber) {
+            invoice.invoiceNumber = invoiceNumber;
+            return this;
+        }
+
+        public Builder companyName(String companyName) {
+            invoice.companyName = companyName;
+            return this;
+        }
+
+        public Builder typeOfWork(String typeOfWork) {
+            invoice.typeOfWork = typeOfWork;
+            return this;
+        }
+
+        public Builder dueDate(LocalDate dueDate) {
+            invoice.dueDate = dueDate;
+            return this;
+        }
+
+        public Builder price(BigDecimal price) {
+            invoice.price = price;
+            return this;
+        }
+
+        public Builder description(String description) {
+            invoice.description = description;
+            return this;
+        }
+
+        public Builder status(Status status) {
+            invoice.status = status;
+            return this;
+        }
+
+        public Invoice build() {
+            return invoice;
+        }
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
 
     public static Invoice from(WebElement element) {
@@ -44,6 +118,25 @@ public class Invoice {
                     .description(extractText(element.findElement(className("comment"))))
                     .status(Invoice.Status.parse(extractText(element.findElement(className("status")))).orElseThrow(NullPointerException::new))
                     .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Invoice invoice = (Invoice) o;
+        return Objects.equals(getInvoiceNumber(), invoice.getInvoiceNumber()) &&
+                Objects.equals(getCompanyName(), invoice.getCompanyName()) &&
+                Objects.equals(getTypeOfWork(), invoice.getTypeOfWork()) &&
+                Objects.equals(getDescription(), invoice.getDescription()) &&
+                getStatus() == invoice.getStatus() &&
+                Objects.equals(getDueDate(), invoice.getDueDate()) &&
+                Objects.equals(getPrice(), invoice.getPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getInvoiceNumber(), getCompanyName(), getTypeOfWork(), getDescription(), getStatus(), getDueDate(), getPrice());
     }
 
 

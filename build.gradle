@@ -1,19 +1,11 @@
 buildscript {
-	ext {
-		springBootVersion = '2.0.5.RELEASE'
-	}
 	repositories {
 		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.beaufortfairmont'
 version = '0.0.1-SNAPSHOT'
@@ -31,14 +23,9 @@ test {
 dependencies {
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
 
-	compileOnly('org.projectlombok:lombok')
-
-	implementation('org.springframework.boot:spring-boot-starter')
-
 	compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6"
 
 	testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
 	testCompile group: 'com.github.tomakehurst', name: 'wiremock', version: '2.19.0'
 
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
