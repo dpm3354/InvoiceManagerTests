@@ -41,18 +41,18 @@ public class WireMockService {
                 .willReturn(
                         ok().withHeader("Access-Control-Allow-Origin", "*")
                                 .withHeader("Access-Control-Allow-Headers", "Content-Type")
-                                .withHeader("Access-Control-Allow-Methods", "GET, POST")));
+                                .withHeader("Access-Control-Allow-Methods", "GET, POST, DELETE")));
 
         wireMock.register(delete(urlEqualTo("/invoices/" + InvoiceFactory.getSimpleInvoice().getInvoiceNumber())).inScenario("invoices manager").willSetStateTo("deleted")
                 .willReturn(aResponse().proxiedFrom("/")
                 .withHeader("Access-Control-Allow-Origin", "*")
-                                .withHeader("Access-Control-Allow-Methods", "GET, POST")));
+                                .withHeader("Access-Control-Allow-Methods", "GET, POST, DELETE")));
 
 
         wireMock.register(post(urlEqualTo("/invoices")).inScenario("invoices manager").willSetStateTo("created")
                 .willReturn(okJson(this.mapper.writeValueAsString(Arrays.asList(InvoiceFactory.getSimpleInvoice())))
                 .withHeader("Access-Control-Allow-Origin", "*")
-                .withHeader("Access-Control-Allow-Methods", "GET, POST")));
+                .withHeader("Access-Control-Allow-Methods", "GET, POST, DELETE")));
 
         wireMock.register(get(urlEqualTo("/invoices")).inScenario("invoices manager").whenScenarioStateIs("created")
                 .willReturn(okJson(this.mapper.writeValueAsString(Arrays.asList(InvoiceFactory.getSimpleInvoice())))
