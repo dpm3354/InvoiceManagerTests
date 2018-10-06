@@ -9,4 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties
 public class ApplicationConfiguration {
     private String baseUrl;
+    private Mock mock;
+
+    @Data
+    @Configuration
+    public static class Mock {
+        private int port;
+        private int globalFixedDelay;
+    }
 }
